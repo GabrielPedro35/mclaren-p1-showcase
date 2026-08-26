@@ -144,6 +144,40 @@ export default function InformationSection() {
         </h2>
         <div style={{ flex: 1, height: "1px", backgroundColor: "rgba(255,255,255,0.4)" }} />
       </div>
+
+      {/* col 1: gap */}
+      <div style={{ gridColumn: "1 / 2" }} />
+
+      {/* cols 2-12: Hybrid System body text */}
+      <div style={{ gridColumn: "2 / 12", marginTop: "80px" }}>
+        <p
+          style={{
+            fontFamily: "var(--font-geist-sans)",
+            fontSize: "18px",
+            fontWeight: 300,
+            lineHeight: 1.7,
+            color: "rgba(255,255,255,0.6)",
+          }}
+        >
+          The electric motor adds 176 bhp and 260 Nm of instant torque, filling every gap the turbos
+          leave. McLaren called it IPAS, Instant Power Assist System. Combined output reaches 903 bhp
+          and 900 Nm. It also runs silently on electric power alone for around 10 km. A hypercar that
+          whispers before it screams.
+        </p>
+        <p
+          style={{
+            fontFamily: "var(--font-geist-sans)",
+            fontSize: "18px",
+            fontWeight: 300,
+            lineHeight: 1.7,
+            color: "rgba(255,255,255,0.6)",
+            marginTop: "32px",
+          }}
+        >
+          Over 600 kg of downforce at 257 km/h, five times what the MP4-12C produced. An active rear wing that extends 300 mm on track and pitches 29 degrees. Front underbody flaps sweeping 0 to 60 degrees automatically. F1-derived DRS cutting drag by 23% on demand. The P1 does not
+          fight the air. It uses it.
+        </p>
+      </div>
     </section>
   );
 }

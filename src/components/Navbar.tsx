@@ -6,9 +6,10 @@ type NavState = "solid" | "hidden" | "frosted";
 
 interface NavbarProps {
   navState: NavState;
+  onHeritage?: () => void;
 }
 
-export default function Navbar({ navState }: NavbarProps) {
+export default function Navbar({ navState, onHeritage }: NavbarProps) {
   const navStyles: React.CSSProperties = {
     transition:
       "background 0.4s ease, backdrop-filter 0.4s ease, transform 0.4s ease, border-color 0.4s ease",
@@ -49,7 +50,7 @@ export default function Navbar({ navState }: NavbarProps) {
       </div>
 
       <div className="flex-1 flex items-center justify-center gap-14">
-        {["P1", "PERFORMANCE", "DESIGN", "HERITAGE"].map((link) => (
+        {["P1", "PERFORMANCE", "DESIGN"].map((link) => (
           <a
             key={link}
             href="#"
@@ -63,6 +64,18 @@ export default function Navbar({ navState }: NavbarProps) {
             {link}
           </a>
         ))}
+        <a
+          href="#"
+          onClick={(e) => { e.preventDefault(); onHeritage?.(); }}
+          className="text-[11px] tracking-[0.25em] font-medium transition-colors duration-200"
+          style={{ color: "rgba(255,255,255,0.72)" }}
+          onMouseEnter={(e) => (e.currentTarget.style.color = "#fff")}
+          onMouseLeave={(e) =>
+            (e.currentTarget.style.color = "rgba(255,255,255,0.72)")
+          }
+        >
+          HERITAGE
+        </a>
       </div>
 
       <div style={{ width: "200px" }} />

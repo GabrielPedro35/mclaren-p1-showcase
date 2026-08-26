@@ -23,7 +23,6 @@ export default function RootLayout({
       <body>
         <NavbarWrapper />
         {children}
-        {/* NOT: buraya footer eklenecek */}
       </body>
     </html>
   );
