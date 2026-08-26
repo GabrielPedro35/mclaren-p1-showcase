@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { FloatingPaths } from "@/components/ui/floating-paths";
 
 interface FooterProps {
@@ -8,7 +9,29 @@ interface FooterProps {
   onBack: () => void;
 }
 
+function glowOn(e: React.MouseEvent<HTMLAnchorElement>) {
+  e.currentTarget.style.color = "rgba(255,255,255,0.95)";
+  e.currentTarget.style.textShadow = "0 0 10px rgba(255,255,255,0.5), 0 0 20px rgba(255,255,255,0.2)";
+}
+function glowOff(e: React.MouseEvent<HTMLAnchorElement>) {
+  e.currentTarget.style.color = "rgba(255,255,255,0.5)";
+  e.currentTarget.style.textShadow = "none";
+}
+
+const linkStyle: React.CSSProperties = {
+  fontFamily: "var(--font-geist-sans)",
+  fontSize: "13px",
+  fontWeight: 300,
+  letterSpacing: "0.07em",
+  color: "rgba(255,255,255,0.5)",
+  textDecoration: "none",
+  cursor: "pointer",
+  transition: "color 0.2s ease, text-shadow 0.2s ease",
+};
+
 export default function Footer({ exploded, onExplode, onBack }: FooterProps) {
+  const [backHover, setBackHover] = useState(false);
+
   return (
     <footer
       style={{
@@ -38,7 +61,6 @@ export default function Footer({ exploded, onExplode, onBack }: FooterProps) {
         }}
       />
 
-      
       {/* heritage text */}
       <div
         style={{
@@ -51,9 +73,7 @@ export default function Footer({ exploded, onExplode, onBack }: FooterProps) {
           zIndex: 11,
           pointerEvents: "none",
           opacity: exploded ? 1 : 0,
-          transition: exploded
-            ? "opacity 0.6s ease 0.6s"
-            : "opacity 0.3s ease",
+          transition: exploded ? "opacity 0.6s ease 0.6s" : "opacity 0.3s ease",
         }}
       >
         <p
@@ -82,23 +102,28 @@ export default function Footer({ exploded, onExplode, onBack }: FooterProps) {
       {/* back button */}
       <button
         onClick={onBack}
+        onMouseEnter={() => setBackHover(true)}
+        onMouseLeave={() => setBackHover(false)}
         style={{
           position: "absolute",
-          top: "24px",
+          top: "20px",
           left: "30px",
           zIndex: 13,
           background: "transparent",
-          border: "1px solid rgba(255,255,255,0.5)",
+          border: `1px solid ${backHover ? "rgba(255,255,255,0.9)" : "rgba(255,255,255,0.4)"}`,
           color: "#ffffff",
           fontFamily: "var(--font-geist-sans)",
-          fontSize: "10px",
+          fontSize: "9px",
           fontWeight: 300,
-          letterSpacing: "0.1em",
-          padding: "5px 12px",
+          letterSpacing: "0.12em",
+          padding: "4px 10px",
           cursor: "pointer",
           opacity: exploded ? 1 : 0,
           pointerEvents: exploded ? "auto" : "none",
-          transition: "opacity 0.4s ease 0.6s",
+          transition: "opacity 0.4s ease 0.6s, border-color 0.25s ease, box-shadow 0.25s ease",
+          boxShadow: backHover
+            ? "0 0 12px rgba(255,255,255,0.35), 0 0 24px rgba(255,255,255,0.15)"
+            : "none",
         }}
       >
         BACK
@@ -122,34 +147,44 @@ export default function Footer({ exploded, onExplode, onBack }: FooterProps) {
           zIndex: 1,
         }}
       >
-        {["P1", "Performance", "Design"].map((link) => (
-          <a
-            key={link}
-            href="#"
-            style={{
-              fontFamily: "var(--font-geist-sans)",
-              fontSize: "13px",
-              fontWeight: 300,
-              letterSpacing: "0.07em",
-              color: "rgba(255,255,255,0.5)",
-              textDecoration: "none",
-            }}
-          >
-            {link}
-          </a>
-        ))}
+        <a
+          href="#"
+          onClick={(e) => {
+            e.preventDefault();
+            const el = document.getElementById("engine");
+            if (el) {
+              const top = el.getBoundingClientRect().top + window.scrollY - 120;
+              window.scrollTo({ top, behavior: "smooth" });
+            }
+          }}
+          style={linkStyle}
+          onMouseEnter={glowOn}
+          onMouseLeave={glowOff}
+        >
+          Performance
+        </a>
+        <a
+          href="#"
+          onClick={(e) => {
+            e.preventDefault();
+            const el = document.getElementById("design");
+            if (el) {
+              const top = el.getBoundingClientRect().top + window.scrollY - 120;
+              window.scrollTo({ top, behavior: "smooth" });
+            }
+          }}
+          style={linkStyle}
+          onMouseEnter={glowOn}
+          onMouseLeave={glowOff}
+        >
+          Design
+        </a>
         <a
           href="#"
           onClick={(e) => { e.preventDefault(); onExplode(); }}
-          style={{
-            fontFamily: "var(--font-geist-sans)",
-            fontSize: "13px",
-            fontWeight: 300,
-            letterSpacing: "0.07em",
-            color: "rgba(255,255,255,0.5)",
-            textDecoration: "none",
-            cursor: "pointer",
-          }}
+          style={linkStyle}
+          onMouseEnter={glowOn}
+          onMouseLeave={glowOff}
         >
           Heritage
         </a>
@@ -167,18 +202,7 @@ export default function Footer({ exploded, onExplode, onBack }: FooterProps) {
         }}
       >
         {["Privacy Policy", "Terms of Use", "Cookie Settings"].map((link) => (
-          <a
-            key={link}
-            href="#"
-            style={{
-              fontFamily: "var(--font-geist-sans)",
-              fontSize: "13px",
-              fontWeight: 300,
-              letterSpacing: "0.07em",
-              color: "rgba(255,255,255,0.5)",
-              textDecoration: "none",
-            }}
-          >
+          <a key={link} href="#" style={linkStyle} onMouseEnter={glowOn} onMouseLeave={glowOff}>
             {link}
           </a>
         ))}

@@ -26,6 +26,7 @@ export default function HeroAnimation({
   return (
     <div
       ref={containerRef}
+      data-anim="hero"
       style={{ height: `calc(${FRAME_SCROLL_HEIGHT}px + 100vh)` }}
       className="relative"
     >

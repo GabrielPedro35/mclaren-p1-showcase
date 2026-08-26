@@ -33,46 +33,86 @@ export default function Navbar({ navState, onHeritage }: NavbarProps) {
     }),
   };
 
+  const linkStyle: React.CSSProperties = {
+    color: "rgba(255,255,255,0.72)",
+    transition: "color 0.2s ease, text-shadow 0.2s ease",
+  };
+
+  function onHover(e: React.MouseEvent<HTMLAnchorElement>) {
+    e.currentTarget.style.color = "#fff";
+    e.currentTarget.style.textShadow =
+      "0 0 10px rgba(255,255,255,0.5), 0 0 20px rgba(255,255,255,0.2)";
+  }
+
+  function onLeave(e: React.MouseEvent<HTMLAnchorElement>) {
+    e.currentTarget.style.color = "rgba(255,255,255,0.72)";
+    e.currentTarget.style.textShadow = "none";
+  }
+
   return (
     <nav
       className="fixed top-0 left-0 right-0 z-50 flex items-center px-10 h-10"
       style={navStyles}
     >
-      <div className="flex items-center" style={{ width: "200px" }}>
+      <div
+        className="flex items-center"
+        style={{ width: "200px", cursor: "pointer" }}
+        onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+      >
         <Image
           src="/mclaren logo.png"
           alt="McLaren"
           width={90}
           height={24}
           className="object-contain"
+          style={{ filter: "brightness(0) invert(1)" }}
           priority
         />
       </div>
 
       <div className="flex-1 flex items-center justify-center gap-14">
-        {["P1", "PERFORMANCE", "DESIGN"].map((link) => (
-          <a
-            key={link}
-            href="#"
-            className="text-[11px] tracking-[0.25em] font-medium transition-colors duration-200"
-            style={{ color: "rgba(255,255,255,0.72)" }}
-            onMouseEnter={(e) => (e.currentTarget.style.color = "#fff")}
-            onMouseLeave={(e) =>
-              (e.currentTarget.style.color = "rgba(255,255,255,0.72)")
+        <a
+          href="#"
+          onClick={(e) => {
+            e.preventDefault();
+            const el = document.getElementById("engine");
+            if (el) {
+              const top = el.getBoundingClientRect().top + window.scrollY - 120;
+              window.scrollTo({ top, behavior: "smooth" });
             }
-          >
-            {link}
-          </a>
-        ))}
+          }}
+          className="text-[11px] tracking-[0.25em] font-medium"
+          style={linkStyle}
+          onMouseEnter={onHover}
+          onMouseLeave={onLeave}
+        >
+          PERFORMANCE
+        </a>
+        <a
+          href="#"
+          onClick={(e) => {
+            e.preventDefault();
+            const el = document.getElementById("design");
+            if (el) {
+              const top = el.getBoundingClientRect().top + window.scrollY - 120;
+              window.scrollTo({ top, behavior: "smooth" });
+            }
+          }}
+          className="text-[11px] tracking-[0.25em] font-medium"
+          style={linkStyle}
+          onMouseEnter={onHover}
+          onMouseLeave={onLeave}
+        >
+          DESIGN
+        </a>
+
         <a
           href="#"
           onClick={(e) => { e.preventDefault(); onHeritage?.(); }}
-          className="text-[11px] tracking-[0.25em] font-medium transition-colors duration-200"
-          style={{ color: "rgba(255,255,255,0.72)" }}
-          onMouseEnter={(e) => (e.currentTarget.style.color = "#fff")}
-          onMouseLeave={(e) =>
-            (e.currentTarget.style.color = "rgba(255,255,255,0.72)")
-          }
+          className="text-[11px] tracking-[0.25em] font-medium"
+          style={linkStyle}
+          onMouseEnter={onHover}
+          onMouseLeave={onLeave}
         >
           HERITAGE
         </a>

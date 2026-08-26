@@ -21,11 +21,17 @@ export default function SecondAnimation() {
   const [footerY, setFooterY] = useState(100);
   const [textOpacity, setTextOpacity] = useState(0);
   const [exploded, setExploded] = useState(false);
+  const [footerBlur, setFooterBlur] = useState(16);
+  const [footerOpacity, setFooterOpacity] = useState(0);
 
   useEffect(() => {
     function onHeritageClick() {
-      setExploded(true);
-      footerRef.current?.scrollIntoView({ behavior: "smooth" });
+      const container = containerRef.current;
+      if (container) {
+        const top = container.offsetTop + container.offsetHeight - window.innerHeight;
+        window.scrollTo({ top, behavior: "smooth" });
+      }
+      setTimeout(() => setExploded(true), 800);
     }
     window.addEventListener("heritage-click", onHeritageClick);
     return () => window.removeEventListener("heritage-click", onHeritageClick);
@@ -66,9 +72,11 @@ export default function SecondAnimation() {
       const eased = endProgress * endProgress;
       setBlur(eased * 8);
       setFooterY((1 - endProgress) * 100);
+      setFooterBlur((1 - endProgress) * 16);
 
       const textProgress = Math.max(0, Math.min(1, (progress - 0.9) / 0.1));
       setTextOpacity(textProgress);
+      setFooterOpacity(endProgress);
     }
 
     for (let i = 0; i < TOTAL_FRAMES_2; i++) {
@@ -93,6 +101,7 @@ export default function SecondAnimation() {
   return (
     <div
       ref={containerRef}
+      data-anim="second"
       style={{ height: `calc(${FRAME_SCROLL_HEIGHT_2}px + 100vh)` }}
       className="relative"
     >
@@ -179,6 +188,8 @@ export default function SecondAnimation() {
             right: 0,
             transform: `translateY(${footerY}%)`,
             transition: "transform 0.05s linear",
+            filter: `blur(${footerBlur}px)`,
+            opacity: footerOpacity,
           }}
         >
           <Footer

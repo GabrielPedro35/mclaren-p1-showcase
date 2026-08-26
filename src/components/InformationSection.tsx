@@ -20,6 +20,7 @@ export default function InformationSection() {
       {/* cols 2-13: DESIGN title + body text */}
       <div style={{ gridColumn: "2 / 13", display: "flex", flexDirection: "column", gap: "32px" }}>
         <h2
+          id="design"
           style={{
             fontFamily: "var(--font-geist-sans)",
             fontSize: "175px",
@@ -56,26 +57,25 @@ export default function InformationSection() {
       {/* col 1: gap */}
       <div style={{ gridColumn: "1 / 2" }} />
 
-      {/* cols 1.3-11: engine image, starts 0.3 into col 1 */}
+      {/* cols 1.3-11: engine image */}
       <div style={{ gridColumn: "1 / 12", marginTop: "80px", paddingLeft: "calc((100% - 60px - 11 * 20px) / 12 * 0.3)" }}>
         <Image
           src="/engine img.png"
           alt="McLaren P1 Engine"
           width={1200}
           height={800}
-          style={{
-            width: "100%",
-            height: "auto",
-            display: "block",
-          }}
+          style={{ width: "100%", height: "auto", display: "block" }}
         />
       </div>
 
       {/* col 1: gap */}
       <div style={{ gridColumn: "1 / 2" }} />
 
-      {/* cols 2-11: Engine title + line */}
-      <div style={{ gridColumn: "2 / 12", marginTop: "48px", display: "flex", alignItems: "center", gap: "32px" }}>
+      {/* cols 2-11: ENGINE title + line */}
+      <div
+        id="engine"
+        style={{ gridColumn: "2 / 12", marginTop: "48px", display: "flex", alignItems: "center", gap: "32px" }}
+      >
         <h2
           style={{
             fontFamily: "var(--font-geist-sans)",
@@ -95,7 +95,7 @@ export default function InformationSection() {
       {/* col 1: gap */}
       <div style={{ gridColumn: "1 / 2" }} />
 
-      {/* cols 2-8: Engine body text */}
+      {/* cols 2-12: Engine body text */}
       <div style={{ gridColumn: "2 / 12", marginTop: "80px" }}>
         <p
           style={{
