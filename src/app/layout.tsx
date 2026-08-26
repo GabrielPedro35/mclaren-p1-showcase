@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Geist } from "next/font/google";
 import "./globals.css";
 import NavbarWrapper from "@/components/NavbarWrapper";
-import FrameDebugger from "@/components/FrameDebugger";
 import LoadingScreen from "@/components/LoadingScreen";
 
 const geist = Geist({
