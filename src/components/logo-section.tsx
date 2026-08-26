@@ -20,15 +20,15 @@ export default function HeaderSection() {
         alignItems: "stretch",
       }}
     >
-      {/* left side: text */}
-      <div className="flex-1 flex items-center" style={{ padding: "0 6%" }}>
+      {/* left side: 1 col gap + text from col 2 */}
+      <div className="flex-1 flex items-center" style={{ paddingLeft: "calc(30px + (100% - 60px - 11 * 20px) / 12 + 20px)", paddingRight: "3%" }}>
         <h2
           style={{
             fontFamily: "var(--font-geist-sans)",
-            fontSize: "clamp(2.5rem, 6vw, 7rem)",
-            fontWeight: 900,
+            fontSize: "102px",
+            fontWeight: 300,
             lineHeight: 1,
-            letterSpacing: "-0.02em",
+            letterSpacing: "0.07em",
             color: "#0b0809",
           }}
         >
