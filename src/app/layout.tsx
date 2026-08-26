@@ -3,6 +3,7 @@ import { Geist } from "next/font/google";
 import "./globals.css";
 import NavbarWrapper from "@/components/NavbarWrapper";
 import FrameDebugger from "@/components/FrameDebugger";
+import LoadingScreen from "@/components/LoadingScreen";
 
 const geist = Geist({
   subsets: ["latin"],
@@ -22,9 +23,9 @@ export default function RootLayout({
   return (
     <html lang="en" className={geist.variable}>
       <body>
+        <LoadingScreen />
         <NavbarWrapper />
         {children}
-        <FrameDebugger />
       </body>
     </html>
   );
