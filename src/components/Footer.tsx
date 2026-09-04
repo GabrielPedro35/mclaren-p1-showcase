@@ -34,6 +34,7 @@ export default function Footer({ exploded, onExplode, onBack }: FooterProps) {
 
   return (
     <footer
+      className="site-footer"
       style={{
         width: "100%",
         height: "55vh",
@@ -63,6 +64,7 @@ export default function Footer({ exploded, onExplode, onBack }: FooterProps) {
 
       {/* heritage text */}
       <div
+        className="heritage-copy"
         style={{
           position: "absolute",
           inset: 0,
@@ -131,10 +133,11 @@ export default function Footer({ exploded, onExplode, onBack }: FooterProps) {
 
       
       {/* col 1 gap */}
-      <div style={{ gridColumn: "1 / 2", position: "relative", zIndex: 1 }} />
+      <div className="footer-gap" style={{ gridColumn: "1 / 2", position: "relative", zIndex: 1 }} />
 
       {/* cols 2-4: nav links */}
       <div
+        className="footer-col"
         style={{
           gridColumn: "2 / 5",
           display: "flex",
@@ -181,6 +184,7 @@ export default function Footer({ exploded, onExplode, onBack }: FooterProps) {
 
       {/* cols 5-7: legal */}
       <div
+        className="footer-col"
         style={{
           gridColumn: "5 / 8",
           display: "flex",
@@ -199,6 +203,7 @@ export default function Footer({ exploded, onExplode, onBack }: FooterProps) {
 
       {/* bottom copyright row */}
       <div
+        className="footer-legal"
         style={{
           gridColumn: "1 / 13",
           borderTop: "1px solid rgba(255,255,255,0.1)",

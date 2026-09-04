@@ -3,7 +3,7 @@ import Image from "next/image";
 export default function InformationSection() {
   return (
     <section
-      className="relative w-full"
+      className="info-section relative w-full"
       style={{
         background: "#0b0809",
         minHeight: "170.5vw",
@@ -21,6 +21,7 @@ export default function InformationSection() {
       <div style={{ gridColumn: "2 / 13", display: "flex", flexDirection: "column", gap: "32px" }}>
         <h2
           id="design"
+          className="info-title-xl"
           style={{
             fontFamily: "var(--font-geist-sans)",
             fontSize: "175px",
@@ -34,6 +35,7 @@ export default function InformationSection() {
         </h2>
 
         <p
+          className="info-copy"
           style={{
             fontFamily: "var(--font-geist-sans)",
             fontSize: "16px",
@@ -77,6 +79,7 @@ export default function InformationSection() {
         style={{ gridColumn: "2 / 12", marginTop: "48px", display: "flex", alignItems: "center", gap: "32px" }}
       >
         <h2
+          className="info-title"
           style={{
             fontFamily: "var(--font-geist-sans)",
             fontSize: "70px",
@@ -98,6 +101,7 @@ export default function InformationSection() {
       {/* cols 2-12: Engine body text */}
       <div style={{ gridColumn: "2 / 12", marginTop: "80px" }}>
         <p
+          className="info-copy"
           style={{
             fontFamily: "var(--font-geist-sans)",
             fontSize: "18px",
@@ -111,6 +115,7 @@ export default function InformationSection() {
           the mechanical ferocity you expect from a car built on racing DNA.
         </p>
         <p
+          className="info-copy"
           style={{
             fontFamily: "var(--font-geist-sans)",
             fontSize: "18px",
@@ -130,6 +135,7 @@ export default function InformationSection() {
       {/* cols 2-12: HYBRID SYSTEM title + line */}
       <div style={{ gridColumn: "2 / 12", marginTop: "200px", display: "flex", alignItems: "center", gap: "32px" }}>
         <h2
+          className="info-title"
           style={{
             fontFamily: "var(--font-geist-sans)",
             fontSize: "70px",
@@ -151,6 +157,7 @@ export default function InformationSection() {
       {/* cols 2-12: Hybrid System body text */}
       <div style={{ gridColumn: "2 / 12", marginTop: "80px" }}>
         <p
+          className="info-copy"
           style={{
             fontFamily: "var(--font-geist-sans)",
             fontSize: "18px",
@@ -165,6 +172,7 @@ export default function InformationSection() {
           whispers before it screams.
         </p>
         <p
+          className="info-copy"
           style={{
             fontFamily: "var(--font-geist-sans)",
             fontSize: "18px",

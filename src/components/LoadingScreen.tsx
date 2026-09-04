@@ -50,7 +50,7 @@ export default function LoadingScreen() {
         pointerEvents: done ? "none" : "all",
       }}
     >
-      <div style={{ width: "min(600px, 85vw)", display: "flex", flexDirection: "column" }}>
+      <div className="loading-gauge" style={{ width: "min(600px, 85vw)", display: "flex", flexDirection: "column" }}>
         <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "6px", paddingLeft: "2px", paddingRight: "2px" }}>
           {Array.from({ length: SEGMENTS + 1 }, (_, i) => (
             <span

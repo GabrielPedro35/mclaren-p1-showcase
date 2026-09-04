@@ -169,6 +169,7 @@ export default function SecondAnimation() {
           }}
         >
           <span
+            className="end-wordmark"
             style={{
               position: "absolute",
               fontFamily: "ASpaceBlack, sans-serif",
@@ -188,6 +189,7 @@ export default function SecondAnimation() {
           </span>
 
           <span
+            className="end-wordmark"
             style={{
               position: "absolute",
               fontFamily: "ASpaceBlack, sans-serif",

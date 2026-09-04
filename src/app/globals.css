@@ -43,3 +43,122 @@ body {
   overflow-x: hidden;
 }
 
+.site-nav {
+  min-height: 40px;
+}
+
+.info-title-xl {
+  font-size: 175px;
+}
+
+.info-title {
+  font-size: 70px;
+}
+
+.logo-title {
+  font-size: 102px;
+}
+
+.end-wordmark {
+  font-size: 13.5vw;
+}
+
+@media (max-width: 900px) {
+  .site-nav {
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+    gap: 0;
+  }
+
+  .site-nav .nav-links {
+    gap: 18px !important;
+  }
+
+  .site-nav .nav-brand,
+  .site-nav .nav-spacer {
+    width: 72px !important;
+  }
+
+  .info-section {
+    padding: 72px 16px !important;
+    gap: 12px !important;
+    min-height: 0 !important;
+  }
+
+  .info-title-xl {
+    font-size: clamp(48px, 16vw, 96px) !important;
+  }
+
+  .info-title {
+    font-size: clamp(28px, 9vw, 48px) !important;
+  }
+
+  .info-copy {
+    font-size: 15px !important;
+  }
+
+  .logo-section {
+    padding: 0 16px !important;
+    flex-direction: column !important;
+    justify-content: flex-end !important;
+  }
+
+  .logo-title {
+    font-size: clamp(36px, 10vw, 64px) !important;
+    padding-left: 0 !important;
+  }
+
+  .logo-copy {
+    padding: 8% 4% 12% !important;
+  }
+
+  .site-footer {
+    height: auto !important;
+    min-height: 62vh;
+    padding: 28px 16px 24px !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 16px !important;
+  }
+
+  .footer-gap {
+    display: none !important;
+  }
+
+  .footer-col {
+    grid-column: auto !important;
+  }
+
+  .footer-legal {
+    grid-column: 1 / -1 !important;
+  }
+
+  .heritage-copy {
+    padding: 56px 16px 16px !important;
+  }
+
+  .heritage-copy p {
+    font-size: 14px !important;
+    max-width: 100% !important;
+  }
+
+  .end-wordmark {
+    font-size: clamp(42px, 16vw, 72px) !important;
+  }
+
+  .loading-gauge {
+    width: min(92vw, 600px) !important;
+  }
+}
+
+@media (max-width: 520px) {
+  .site-nav .nav-links a {
+    font-size: 9px !important;
+    letter-spacing: 0.16em !important;
+  }
+
+  .site-nav .nav-brand,
+  .site-nav .nav-spacer {
+    width: 48px !important;
+  }
+}
+

@@ -52,11 +52,11 @@ export default function Navbar({ navState, onHeritage }: NavbarProps) {
 
   return (
     <nav
-      className="fixed top-0 left-0 right-0 z-50 flex items-center px-10 h-10"
+      className="site-nav fixed top-0 left-0 right-0 z-50 flex items-center px-10 h-10"
       style={navStyles}
     >
       <div
-        className="flex items-center"
+        className="nav-brand flex items-center"
         style={{ width: "200px", cursor: "pointer" }}
         onClick={() => scrollToY(0)}
       >
@@ -71,7 +71,7 @@ export default function Navbar({ navState, onHeritage }: NavbarProps) {
         />
       </div>
 
-      <div className="flex-1 flex items-center justify-center gap-14">
+      <div className="nav-links flex-1 flex items-center justify-center gap-14">
         <a
           href="#"
           onClick={(e) => {
@@ -111,7 +111,7 @@ export default function Navbar({ navState, onHeritage }: NavbarProps) {
         </a>
       </div>
 
-      <div style={{ width: "200px" }} />
+      <div className="nav-spacer" style={{ width: "200px" }} />
     </nav>
   );
 }

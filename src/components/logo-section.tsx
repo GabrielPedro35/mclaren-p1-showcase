@@ -3,7 +3,7 @@ import Image from "next/image";
 export default function HeaderSection() {
   return (
     <section
-      className="relative w-full overflow-hidden"
+      className="logo-section relative w-full overflow-hidden"
       style={{
         backgroundColor: "#f8ece8",
         backgroundImage: "url('/slogan%20header%20mclaren%201.png')",
@@ -21,8 +21,9 @@ export default function HeaderSection() {
       }}
     >
       {/* left side: 1 col gap + text from col 2 */}
-      <div className="flex-1 flex items-center" style={{ paddingLeft: "calc(30px + (100% - 60px - 11 * 20px) / 12 + 20px)", paddingRight: "3%" }}>
+      <div className="logo-copy flex-1 flex items-center" style={{ paddingLeft: "calc(30px + (100% - 60px - 11 * 20px) / 12 + 20px)", paddingRight: "3%" }}>
         <h2
+          className="logo-title"
           style={{
             fontFamily: "var(--font-geist-sans)",
             fontSize: "102px",
