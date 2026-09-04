@@ -113,11 +113,12 @@ body {
   }
 
   .site-footer {
-    height: auto !important;
-    min-height: 62vh;
-    padding: 28px 16px 24px !important;
+    height: 42vh !important;
+    min-height: 0 !important;
+    padding: 18px 16px 14px !important;
     grid-template-columns: 1fr 1fr !important;
-    gap: 16px !important;
+    gap: 10px 16px !important;
+    overflow: hidden !important;
   }
 
   .footer-gap {
@@ -126,23 +127,46 @@ body {
 
   .footer-col {
     grid-column: auto !important;
+    gap: 6px !important;
+  }
+
+  .footer-col a {
+    font-size: 12px !important;
   }
 
   .footer-legal {
     grid-column: 1 / -1 !important;
+    padding-top: 12px !important;
+  }
+
+  .footer-legal span {
+    font-size: 10px !important;
+    letter-spacing: 0.03em !important;
+    white-space: normal !important;
+    line-height: 1.4 !important;
   }
 
   .heritage-copy {
-    padding: 56px 16px 16px !important;
+    padding: 44px 16px 12px !important;
+    align-items: flex-start !important;
+    overflow-y: auto !important;
   }
 
   .heritage-copy p {
-    font-size: 14px !important;
+    font-size: 13px !important;
+    line-height: 1.55 !important;
     max-width: 100% !important;
+    letter-spacing: 0.02em !important;
+  }
+
+  .end-title {
+    bottom: 42vh !important;
+    height: 58vh !important;
   }
 
   .end-wordmark {
-    font-size: clamp(42px, 16vw, 72px) !important;
+    font-size: clamp(36px, 14vw, 64px) !important;
+    letter-spacing: 0.02em !important;
   }
 
   .loading-gauge {

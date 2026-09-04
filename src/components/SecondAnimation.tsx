@@ -152,6 +152,7 @@ export default function SecondAnimation() {
 
         <div
           ref={titleRef}
+          className="end-title"
           style={{
             position: "absolute",
             bottom: "55vh",
