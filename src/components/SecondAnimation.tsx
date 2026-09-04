@@ -13,20 +13,13 @@ export default function SecondAnimation() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const footerRef = useRef<HTMLDivElement>(null);
+  const titleRef = useRef<HTMLDivElement>(null);
   const currentFrameRef = useRef(0);
   const rafRef = useRef(0);
-  const lastBlur = useRef(0);
-  const lastFooterY = useRef(100);
-  const lastTextOpacity = useRef(0);
-  const lastFooterBlur = useRef(16);
-  const lastFooterOpacity = useRef(0);
+  const lastBlur = useRef(-1);
 
   const [blur, setBlur] = useState(0);
-  const [footerY, setFooterY] = useState(100);
-  const [textOpacity, setTextOpacity] = useState(0);
   const [exploded, setExploded] = useState(false);
-  const [footerBlur, setFooterBlur] = useState(16);
-  const [footerOpacity, setFooterOpacity] = useState(0);
 
   useEffect(() => {
     function onHeritageClick() {
@@ -49,7 +42,6 @@ export default function SecondAnimation() {
     const context = ctx;
 
     function sizeCanvas() {
-      if (!canvas) return;
       const w = canvas.offsetWidth;
       const h = canvas.offsetHeight;
       if (canvas.width !== w) canvas.width = w;
@@ -58,7 +50,7 @@ export default function SecondAnimation() {
 
     function drawFrame(index: number) {
       const img = getCachedFrame(2, index);
-      if (!img || !canvas) return;
+      if (!img) return;
       sizeCanvas();
       const scale = Math.max(
         canvas.width / img.naturalWidth,
@@ -86,30 +78,23 @@ export default function SecondAnimation() {
       const endProgress = Math.max(0, Math.min(1, (progress - 0.85) / 0.15));
       const eased = endProgress * endProgress;
       const nextBlur = eased * 8;
-      const nextFooterY = (1 - endProgress) * 100;
-      const nextFooterBlur = (1 - endProgress) * 16;
-      const nextFooterOpacity = endProgress;
+      const footerY = (1 - endProgress) * 100;
       const textProgress = Math.max(0, Math.min(1, (progress - 0.9) / 0.1));
 
-      if (Math.abs(nextBlur - lastBlur.current) > 0.2) {
+      const footerEl = footerRef.current;
+      if (footerEl) {
+        footerEl.style.transform = `translate3d(0, ${footerY}%, 0)`;
+        footerEl.style.opacity = String(endProgress);
+      }
+      const titleEl = titleRef.current;
+      if (titleEl) {
+        titleEl.style.transform = `translate3d(0, ${footerY}%, 0)`;
+        titleEl.style.opacity = String(textProgress);
+      }
+
+      if (Math.abs(nextBlur - lastBlur.current) > 0.4) {
         lastBlur.current = nextBlur;
         setBlur(nextBlur);
-      }
-      if (Math.abs(nextFooterY - lastFooterY.current) > 0.4) {
-        lastFooterY.current = nextFooterY;
-        setFooterY(nextFooterY);
-      }
-      if (Math.abs(textProgress - lastTextOpacity.current) > 0.02) {
-        lastTextOpacity.current = textProgress;
-        setTextOpacity(textProgress);
-      }
-      if (Math.abs(nextFooterBlur - lastFooterBlur.current) > 0.3) {
-        lastFooterBlur.current = nextFooterBlur;
-        setFooterBlur(nextFooterBlur);
-      }
-      if (Math.abs(nextFooterOpacity - lastFooterOpacity.current) > 0.02) {
-        lastFooterOpacity.current = nextFooterOpacity;
-        setFooterOpacity(nextFooterOpacity);
       }
     }
 
@@ -156,25 +141,27 @@ export default function SecondAnimation() {
           style={{
             display: "block",
             filter: `blur(${canvasBlur}px)`,
+            willChange: "filter",
             transition: exploded ? "filter 0.8s ease" : "filter 0.3s ease-out",
           }}
         />
 
         <div
+          ref={titleRef}
           style={{
             position: "absolute",
             bottom: "55vh",
             left: 0,
             right: 0,
-            transform: `translateY(${footerY}%)`,
-            transition: "transform 0.05s linear",
+            transform: "translate3d(0, 100%, 0)",
             zIndex: 2,
             pointerEvents: "none",
             display: "flex",
             alignItems: "flex-end",
             justifyContent: "center",
             height: "45vh",
-            opacity: textOpacity,
+            opacity: 0,
+            willChange: "transform, opacity",
           }}
         >
           <span
@@ -225,10 +212,9 @@ export default function SecondAnimation() {
             bottom: 0,
             left: 0,
             right: 0,
-            transform: `translateY(${footerY}%)`,
-            transition: "transform 0.05s linear",
-            filter: `blur(${footerBlur}px)`,
-            opacity: footerOpacity,
+            transform: "translate3d(0, 100%, 0)",
+            opacity: 0,
+            willChange: "transform, opacity",
           }}
         >
           <Footer
