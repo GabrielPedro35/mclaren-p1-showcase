@@ -35,11 +35,12 @@ export default function SecondAnimation() {
   }, []);
 
   useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
-    const context = ctx;
+    const canvasNode = canvasRef.current;
+    if (!canvasNode) return;
+    const maybeCtx = canvasNode.getContext("2d");
+    if (!maybeCtx) return;
+    const context: CanvasRenderingContext2D = maybeCtx;
+    const canvas: HTMLCanvasElement = canvasNode;
 
     function sizeCanvas() {
       const w = canvas.offsetWidth;

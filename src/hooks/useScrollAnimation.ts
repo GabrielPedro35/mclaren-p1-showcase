@@ -20,14 +20,14 @@ export function useScrollAnimation() {
   const [heroBlur, setHeroBlur] = useState(0);
 
   useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
-    const context = ctx;
+    const canvasNode = canvasRef.current;
+    if (!canvasNode) return;
+    const maybeCtx = canvasNode.getContext("2d");
+    if (!maybeCtx) return;
+    const context: CanvasRenderingContext2D = maybeCtx;
+    const canvas: HTMLCanvasElement = canvasNode;
 
     function sizeCanvas() {
-      if (!canvas) return;
       const w = canvas.offsetWidth;
       const h = canvas.offsetHeight;
       if (canvas.width !== w) canvas.width = w;
@@ -36,7 +36,7 @@ export function useScrollAnimation() {
 
     function drawFrame(index: number) {
       const img = getCachedFrame(1, index);
-      if (!img || !canvas) return;
+      if (!img) return;
       sizeCanvas();
       const scale = Math.max(
         canvas.width / img.naturalWidth,
