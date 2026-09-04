@@ -1,9 +1,5 @@
-"use client";
-
-import { motion } from "framer-motion";
-
 export function FloatingPaths({ position }: { position: number }) {
-  const paths = Array.from({ length: 36 }, (_, i) => ({
+  const paths = Array.from({ length: 12 }, (_, i) => ({
     id: i,
     d: `M-${380 - i * 5 * position} -${189 + i * 6}C-${
       380 - i * 5 * position
@@ -12,7 +8,7 @@ export function FloatingPaths({ position }: { position: number }) {
     } ${343 - i * 6}C${616 - i * 5 * position} ${470 - i * 6} ${
       684 - i * 5 * position
     } ${875 - i * 6} ${684 - i * 5 * position} ${875 - i * 6}`,
-    width: 0.5 + i * 0.04,
+    width: 0.5 + i * 0.08,
   }));
 
   return (
@@ -34,23 +30,17 @@ export function FloatingPaths({ position }: { position: number }) {
         preserveAspectRatio="xMinYMid meet"
       >
         {paths.map((path) => (
-          <motion.path
+          <path
             key={path.id}
             d={path.d}
             stroke="white"
             strokeWidth={path.width}
-            strokeOpacity={0.08 + path.id * 0.012}
-            initial={{ pathLength: 0, opacity: 0 }}
-            animate={{
-              pathLength: [0.2, 1, 0.2],
-              opacity: [0.4, 0.8, 0.4],
-              pathOffset: [0, 1, 0],
-            }}
-            transition={{
-              duration: 25 + path.id * 0.8,
-              repeat: Number.POSITIVE_INFINITY,
-              ease: "linear",
-              delay: path.id * 0.1,
+            strokeOpacity={0.12 + path.id * 0.02}
+            pathLength={1}
+            style={{
+              strokeDasharray: 1,
+              animation: `mclaren-path ${18 + path.id * 1.2}s linear infinite`,
+              animationDelay: `${path.id * 0.15}s`,
             }}
           />
         ))}

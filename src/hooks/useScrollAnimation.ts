@@ -7,6 +7,7 @@ import {
   getCachedFrame,
   preloadFrames,
 } from "@/lib/frames";
+import { onLenisScroll } from "@/lib/lenis";
 
 export function useScrollAnimation() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -86,11 +87,11 @@ export function useScrollAnimation() {
     }
 
     preloadFrames(1).then(() => drawFrame(0));
-    window.addEventListener("scroll", onScroll, { passive: true });
+    const stopScroll = onLenisScroll(onScroll);
     window.addEventListener("resize", onResize);
 
     return () => {
-      window.removeEventListener("scroll", onScroll);
+      stopScroll();
       window.removeEventListener("resize", onResize);
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
     };

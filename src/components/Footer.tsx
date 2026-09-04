@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { FloatingPaths } from "@/components/ui/floating-paths";
+import { scrollToId } from "@/lib/lenis";
 
 interface FooterProps {
   exploded: boolean;
@@ -129,10 +129,7 @@ export default function Footer({ exploded, onExplode, onBack }: FooterProps) {
         BACK
       </button>
 
-      {/* floating paths background */}
-      <FloatingPaths position={1} />
-      <FloatingPaths position={-1} />
-
+      
       {/* col 1 gap */}
       <div style={{ gridColumn: "1 / 2", position: "relative", zIndex: 1 }} />
 
@@ -151,11 +148,7 @@ export default function Footer({ exploded, onExplode, onBack }: FooterProps) {
           href="#"
           onClick={(e) => {
             e.preventDefault();
-            const el = document.getElementById("engine");
-            if (el) {
-              const top = el.getBoundingClientRect().top + window.scrollY - 120;
-              window.scrollTo({ top, behavior: "smooth" });
-            }
+            scrollToId("engine");
           }}
           style={linkStyle}
           onMouseEnter={glowOn}
@@ -167,11 +160,7 @@ export default function Footer({ exploded, onExplode, onBack }: FooterProps) {
           href="#"
           onClick={(e) => {
             e.preventDefault();
-            const el = document.getElementById("design");
-            if (el) {
-              const top = el.getBoundingClientRect().top + window.scrollY - 120;
-              window.scrollTo({ top, behavior: "smooth" });
-            }
+            scrollToId("design");
           }}
           style={linkStyle}
           onMouseEnter={glowOn}

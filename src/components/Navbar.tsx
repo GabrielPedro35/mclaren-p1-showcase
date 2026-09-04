@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { scrollToId, scrollToY } from "@/lib/lenis";
 
 type NavState = "solid" | "hidden" | "frosted";
 
@@ -57,7 +58,7 @@ export default function Navbar({ navState, onHeritage }: NavbarProps) {
       <div
         className="flex items-center"
         style={{ width: "200px", cursor: "pointer" }}
-        onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+        onClick={() => scrollToY(0)}
       >
         <Image
           src="/mclaren logo.png"
@@ -75,11 +76,7 @@ export default function Navbar({ navState, onHeritage }: NavbarProps) {
           href="#"
           onClick={(e) => {
             e.preventDefault();
-            const el = document.getElementById("engine");
-            if (el) {
-              const top = el.getBoundingClientRect().top + window.scrollY - 120;
-              window.scrollTo({ top, behavior: "smooth" });
-            }
+            scrollToId("engine");
           }}
           className="text-[11px] tracking-[0.25em] font-medium"
           style={linkStyle}
@@ -92,11 +89,7 @@ export default function Navbar({ navState, onHeritage }: NavbarProps) {
           href="#"
           onClick={(e) => {
             e.preventDefault();
-            const el = document.getElementById("design");
-            if (el) {
-              const top = el.getBoundingClientRect().top + window.scrollY - 120;
-              window.scrollTo({ top, behavior: "smooth" });
-            }
+            scrollToId("design");
           }}
           className="text-[11px] tracking-[0.25em] font-medium"
           style={linkStyle}

@@ -8,6 +8,7 @@ import {
   getCachedFrame,
   preloadFrames,
 } from "@/lib/frames";
+import { onLenisScroll, scrollToY } from "@/lib/lenis";
 
 export default function SecondAnimation() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -16,9 +17,7 @@ export default function SecondAnimation() {
   const titleRef = useRef<HTMLDivElement>(null);
   const currentFrameRef = useRef(0);
   const rafRef = useRef(0);
-  const lastBlur = useRef(-1);
-
-  const [blur, setBlur] = useState(0);
+  const overlayRef = useRef<HTMLDivElement>(null);
   const [exploded, setExploded] = useState(false);
 
   useEffect(() => {
@@ -26,9 +25,9 @@ export default function SecondAnimation() {
       const container = containerRef.current;
       if (container) {
         const top = container.offsetTop + container.offsetHeight - window.innerHeight;
-        window.scrollTo({ top, behavior: "smooth" });
+        scrollToY(top, 1.6);
       }
-      setTimeout(() => setExploded(true), 800);
+      setTimeout(() => setExploded(true), 900);
     }
     window.addEventListener("heritage-click", onHeritageClick);
     return () => window.removeEventListener("heritage-click", onHeritageClick);
@@ -77,8 +76,6 @@ export default function SecondAnimation() {
       }
 
       const endProgress = Math.max(0, Math.min(1, (progress - 0.85) / 0.15));
-      const eased = endProgress * endProgress;
-      const nextBlur = eased * 8;
       const footerY = (1 - endProgress) * 100;
       const textProgress = Math.max(0, Math.min(1, (progress - 0.9) / 0.1));
 
@@ -92,10 +89,9 @@ export default function SecondAnimation() {
         titleEl.style.transform = `translate3d(0, ${footerY}%, 0)`;
         titleEl.style.opacity = String(textProgress);
       }
-
-      if (Math.abs(nextBlur - lastBlur.current) > 0.4) {
-        lastBlur.current = nextBlur;
-        setBlur(nextBlur);
+      const overlayEl = overlayRef.current;
+      if (overlayEl) {
+        overlayEl.style.opacity = String(endProgress * 0.55);
       }
     }
 
@@ -113,17 +109,15 @@ export default function SecondAnimation() {
         if (currentFrameRef.current < loaded) drawFrame(currentFrameRef.current);
       }).then(() => drawFrame(currentFrameRef.current));
     });
-    window.addEventListener("scroll", onScroll, { passive: true });
+    const stopScroll = onLenisScroll(onScroll);
     window.addEventListener("resize", onResize);
 
     return () => {
-      window.removeEventListener("scroll", onScroll);
+      stopScroll();
       window.removeEventListener("resize", onResize);
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
     };
   }, []);
-
-  const canvasBlur = exploded ? blur + 20 : blur;
 
   return (
     <div
@@ -139,11 +133,17 @@ export default function SecondAnimation() {
         <canvas
           ref={canvasRef}
           className="w-full h-full"
+          style={{ display: "block" }}
+        />
+        <div
+          ref={overlayRef}
           style={{
-            display: "block",
-            filter: `blur(${canvasBlur}px)`,
-            willChange: "filter",
-            transition: exploded ? "filter 0.8s ease" : "filter 0.3s ease-out",
+            position: "absolute",
+            inset: 0,
+            background: exploded ? "rgba(11,8,9,0.72)" : "rgba(11,8,9,0.55)",
+            opacity: 0,
+            pointerEvents: "none",
+            transition: exploded ? "background 0.8s ease" : "background 0.3s ease-out",
           }}
         />
 

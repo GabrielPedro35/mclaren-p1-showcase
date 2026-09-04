@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import Lenis from "lenis";
+import { onLenisScroll } from "@/lib/lenis";
 
 export type NavState = "solid" | "hidden" | "frosted";
 
@@ -10,18 +10,6 @@ export function useNavState() {
   const lastScrollY = useRef(0);
 
   useEffect(() => {
-    const lenis = new Lenis({
-      duration: 1.4,
-      easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-    });
-
-    let rafId = 0;
-    function raf(time: number) {
-      lenis.raf(time);
-      rafId = requestAnimationFrame(raf);
-    }
-    rafId = requestAnimationFrame(raf);
-
     function onScroll() {
       const currentY = window.scrollY;
       const prev = lastScrollY.current;
@@ -36,13 +24,7 @@ export function useNavState() {
       lastScrollY.current = currentY;
     }
 
-    window.addEventListener("scroll", onScroll, { passive: true });
-
-    return () => {
-      cancelAnimationFrame(rafId);
-      lenis.destroy();
-      window.removeEventListener("scroll", onScroll);
-    };
+    return onLenisScroll(onScroll);
   }, []);
 
   return { navState };

@@ -18,6 +18,22 @@
 html {
   background: #000;
   color: #fff;
+  scroll-behavior: auto;
+}
+
+@keyframes mclaren-path {
+  0% {
+    stroke-dashoffset: 1;
+    opacity: 0.35;
+  }
+  50% {
+    stroke-dashoffset: 0;
+    opacity: 0.8;
+  }
+  100% {
+    stroke-dashoffset: -1;
+    opacity: 0.35;
+  }
 }
 
 body {
