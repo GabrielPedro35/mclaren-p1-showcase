@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { onLenisScroll } from "@/lib/lenis";
+import { onScroll } from "@/lib/smooth-scroll";
 
 export type NavState = "solid" | "hidden" | "frosted";
 
@@ -10,7 +10,7 @@ export function useNavState() {
   const lastScrollY = useRef(0);
 
   useEffect(() => {
-    function onScroll() {
+    function handleScroll() {
       const currentY = window.scrollY;
       const prev = lastScrollY.current;
 
@@ -24,7 +24,7 @@ export function useNavState() {
       lastScrollY.current = currentY;
     }
 
-    return onLenisScroll(onScroll);
+    return onScroll(handleScroll);
   }, []);
 
   return { navState };

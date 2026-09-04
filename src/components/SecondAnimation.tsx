@@ -8,7 +8,7 @@ import {
   getCachedFrame,
   preloadFrames,
 } from "@/lib/frames";
-import { onLenisScroll, scrollToY } from "@/lib/lenis";
+import { onScroll, scrollToY } from "@/lib/smooth-scroll";
 
 export default function SecondAnimation() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -98,7 +98,7 @@ export default function SecondAnimation() {
       }
     }
 
-    function onScroll() {
+    function onFrameScroll() {
       if (rafRef.current) return;
       rafRef.current = requestAnimationFrame(tick);
     }
@@ -112,7 +112,7 @@ export default function SecondAnimation() {
         if (currentFrameRef.current < loaded) drawFrame(currentFrameRef.current);
       }).then(() => drawFrame(currentFrameRef.current));
     });
-    const stopScroll = onLenisScroll(onScroll);
+    const stopScroll = onScroll(onFrameScroll);
     window.addEventListener("resize", onResize);
 
     return () => {

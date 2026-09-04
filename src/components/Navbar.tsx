@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { scrollToId, scrollToY } from "@/lib/lenis";
+import { scrollToId, scrollToY } from "@/lib/smooth-scroll";
 
 type NavState = "solid" | "hidden" | "frosted";
 

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { scrollToId } from "@/lib/lenis";
+import { scrollToId } from "@/lib/smooth-scroll";
 
 interface FooterProps {
   exploded: boolean;

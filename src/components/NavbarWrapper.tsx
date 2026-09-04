@@ -3,13 +3,13 @@
 import { useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import { useNavState } from "@/hooks/useNavState";
-import { getLenis } from "@/lib/lenis";
+import { getScroller } from "@/lib/smooth-scroll";
 
 export default function NavbarWrapper() {
   const { navState } = useNavState();
 
   useEffect(() => {
-    getLenis();
+    getScroller();
   }, []);
 
   function handleHeritage() {
