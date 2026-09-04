@@ -70,7 +70,10 @@ export function useScrollAnimation() {
       const rect = container.getBoundingClientRect();
       const scrolled = -rect.top;
       const progress = Math.max(0, Math.min(1, scrolled / FRAME_SCROLL_HEIGHT_1));
-      const frameIndex = Math.round(progress * (TOTAL_FRAMES_1 - 1));
+      const frameIndex = Math.min(
+        TOTAL_FRAMES_1 - 1,
+        Math.max(0, Math.round(scrolled / (FRAME_SCROLL_HEIGHT_1 / (TOTAL_FRAMES_1 - 1))))
+      );
       if (frameIndex !== currentFrameRef.current) {
         currentFrameRef.current = frameIndex;
         drawFrame(frameIndex);

@@ -1,7 +1,9 @@
 export const TOTAL_FRAMES_1 = 191;
 export const TOTAL_FRAMES_2 = 188;
-export const FRAME_SCROLL_HEIGHT_1 = 6000;
-export const FRAME_SCROLL_HEIGHT_2 = 6000;
+export const FRAME_PIXELS_1 = 48;
+export const FRAME_PIXELS_2 = 48;
+export const FRAME_SCROLL_HEIGHT_1 = (TOTAL_FRAMES_1 - 1) * FRAME_PIXELS_1;
+export const FRAME_SCROLL_HEIGHT_2 = (TOTAL_FRAMES_2 - 1) * FRAME_PIXELS_2;
 
 export function getFrame1Src(index: number): string {
   return `/frames/frame_${String(index).padStart(4, "0")}.webp`;

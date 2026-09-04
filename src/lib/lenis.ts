@@ -12,11 +12,11 @@ export function getLenis(): Lenis | null {
   instance = new Lenis({
     autoRaf: true,
     smoothWheel: true,
-    wheelMultiplier: 1,
-    touchMultiplier: 1.2,
+    wheelMultiplier: 0.55,
+    touchMultiplier: 0.8,
     syncTouch: false,
-    lerp: 0.1,
-    duration: 1.4,
+    lerp: 0.075,
+    duration: 1.6,
   });
 
   instance.on("virtual-scroll", (data) => {
