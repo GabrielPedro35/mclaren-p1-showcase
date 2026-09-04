@@ -15,11 +15,12 @@ export function useNavState() {
       easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
     });
 
+    let rafId = 0;
     function raf(time: number) {
       lenis.raf(time);
-      requestAnimationFrame(raf);
+      rafId = requestAnimationFrame(raf);
     }
-    requestAnimationFrame(raf);
+    rafId = requestAnimationFrame(raf);
 
     function onScroll() {
       const currentY = window.scrollY;
@@ -38,6 +39,7 @@ export function useNavState() {
     window.addEventListener("scroll", onScroll, { passive: true });
 
     return () => {
+      cancelAnimationFrame(rafId);
       lenis.destroy();
       window.removeEventListener("scroll", onScroll);
     };

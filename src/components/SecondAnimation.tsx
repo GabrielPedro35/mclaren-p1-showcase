@@ -2,21 +2,25 @@
 
 import { useEffect, useRef, useState } from "react";
 import Footer from "@/components/Footer";
-
-const TOTAL_FRAMES_2 = 188;
-const FRAME_SCROLL_HEIGHT_2 = 6000;
-
-function getFrame2Src(index: number): string {
-  const padded = String(index).padStart(5, "0");
-  return `/frames2/frame_${padded}.jpg`;
-}
+import {
+  FRAME_SCROLL_HEIGHT_2,
+  TOTAL_FRAMES_2,
+  getCachedFrame,
+  preloadFrames,
+} from "@/lib/frames";
 
 export default function SecondAnimation() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const footerRef = useRef<HTMLDivElement>(null);
-  const imagesRef = useRef<HTMLImageElement[]>([]);
   const currentFrameRef = useRef(0);
+  const rafRef = useRef(0);
+  const lastBlur = useRef(0);
+  const lastFooterY = useRef(100);
+  const lastTextOpacity = useRef(0);
+  const lastFooterBlur = useRef(16);
+  const lastFooterOpacity = useRef(0);
+
   const [blur, setBlur] = useState(0);
   const [footerY, setFooterY] = useState(100);
   const [textOpacity, setTextOpacity] = useState(0);
@@ -38,25 +42,36 @@ export default function SecondAnimation() {
   }, []);
 
   useEffect(() => {
-    const canvas = canvasRef.current!;
-    const ctx = canvas.getContext("2d")!;
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+    const context = ctx;
+
+    function sizeCanvas() {
+      if (!canvas) return;
+      const w = canvas.offsetWidth;
+      const h = canvas.offsetHeight;
+      if (canvas.width !== w) canvas.width = w;
+      if (canvas.height !== h) canvas.height = h;
+    }
 
     function drawFrame(index: number) {
-      const img = imagesRef.current[index];
-      if (!img || !img.complete) return;
-      canvas.width = canvas.offsetWidth;
-      canvas.height = canvas.offsetHeight;
+      const img = getCachedFrame(2, index);
+      if (!img || !canvas) return;
+      sizeCanvas();
       const scale = Math.max(
         canvas.width / img.naturalWidth,
         canvas.height / img.naturalHeight
       );
       const x = (canvas.width - img.naturalWidth * scale) / 2;
       const y = (canvas.height - img.naturalHeight * scale) / 2;
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.drawImage(img, x, y, img.naturalWidth * scale, img.naturalHeight * scale);
+      context.clearRect(0, 0, canvas.width, canvas.height);
+      context.drawImage(img, x, y, img.naturalWidth * scale, img.naturalHeight * scale);
     }
 
-    function onScroll() {
+    function tick() {
+      rafRef.current = 0;
       const container = containerRef.current;
       if (!container) return;
       const rect = container.getBoundingClientRect();
@@ -70,29 +85,55 @@ export default function SecondAnimation() {
 
       const endProgress = Math.max(0, Math.min(1, (progress - 0.85) / 0.15));
       const eased = endProgress * endProgress;
-      setBlur(eased * 8);
-      setFooterY((1 - endProgress) * 100);
-      setFooterBlur((1 - endProgress) * 16);
-
+      const nextBlur = eased * 8;
+      const nextFooterY = (1 - endProgress) * 100;
+      const nextFooterBlur = (1 - endProgress) * 16;
+      const nextFooterOpacity = endProgress;
       const textProgress = Math.max(0, Math.min(1, (progress - 0.9) / 0.1));
-      setTextOpacity(textProgress);
-      setFooterOpacity(endProgress);
+
+      if (Math.abs(nextBlur - lastBlur.current) > 0.2) {
+        lastBlur.current = nextBlur;
+        setBlur(nextBlur);
+      }
+      if (Math.abs(nextFooterY - lastFooterY.current) > 0.4) {
+        lastFooterY.current = nextFooterY;
+        setFooterY(nextFooterY);
+      }
+      if (Math.abs(textProgress - lastTextOpacity.current) > 0.02) {
+        lastTextOpacity.current = textProgress;
+        setTextOpacity(textProgress);
+      }
+      if (Math.abs(nextFooterBlur - lastFooterBlur.current) > 0.3) {
+        lastFooterBlur.current = nextFooterBlur;
+        setFooterBlur(nextFooterBlur);
+      }
+      if (Math.abs(nextFooterOpacity - lastFooterOpacity.current) > 0.02) {
+        lastFooterOpacity.current = nextFooterOpacity;
+        setFooterOpacity(nextFooterOpacity);
+      }
     }
 
-    for (let i = 0; i < TOTAL_FRAMES_2; i++) {
-      const img = new window.Image();
-      img.src = getFrame2Src(i + 1);
-      img.onload = () => {
-        if (i === 0) drawFrame(0);
-      };
-      imagesRef.current[i] = img;
+    function onScroll() {
+      if (rafRef.current) return;
+      rafRef.current = requestAnimationFrame(tick);
     }
 
+    function onResize() {
+      drawFrame(currentFrameRef.current);
+    }
+
+    preloadFrames(1).then(() => {
+      preloadFrames(2, (loaded) => {
+        if (currentFrameRef.current < loaded) drawFrame(currentFrameRef.current);
+      }).then(() => drawFrame(currentFrameRef.current));
+    });
     window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", () => drawFrame(currentFrameRef.current));
+    window.addEventListener("resize", onResize);
 
     return () => {
       window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onResize);
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
     };
   }, []);
 
@@ -119,7 +160,6 @@ export default function SecondAnimation() {
           }}
         />
 
-        {/* MCLAREN / HERITAGE text above footer */}
         <div
           style={{
             position: "absolute",
@@ -178,7 +218,6 @@ export default function SecondAnimation() {
           </span>
         </div>
 
-        {/* footer slides up from bottom */}
         <div
           ref={footerRef}
           style={{

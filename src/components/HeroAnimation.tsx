@@ -1,14 +1,6 @@
 "use client";
 
-import { useRef } from "react";
-
-const TOTAL_FRAMES = 191;
-const FRAME_SCROLL_HEIGHT = 6000;
-
-function getFrameSrc(index: number): string {
-  const padded = String(index).padStart(4, "0");
-  return `/frames/frame_${padded}.png`;
-}
+import { FRAME_SCROLL_HEIGHT_1 } from "@/lib/frames";
 
 interface HeroAnimationProps {
   heroOpacity: number;
@@ -27,7 +19,7 @@ export default function HeroAnimation({
     <div
       ref={containerRef}
       data-anim="hero"
-      style={{ height: `calc(${FRAME_SCROLL_HEIGHT}px + 100vh)` }}
+      style={{ height: `calc(${FRAME_SCROLL_HEIGHT_1}px + 100vh)` }}
       className="relative"
     >
       <div
@@ -67,5 +59,3 @@ export default function HeroAnimation({
     </div>
   );
 }
-
-export { getFrameSrc, TOTAL_FRAMES, FRAME_SCROLL_HEIGHT };

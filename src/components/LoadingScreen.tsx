@@ -1,10 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { preloadFrames } from "@/lib/frames";
 
-const TOTAL_FRAMES_1 = 191;
-const TOTAL_FRAMES_2 = 188;
-const TOTAL = TOTAL_FRAMES_1 + TOTAL_FRAMES_2;
 const SEGMENTS = 10;
 
 export default function LoadingScreen() {
@@ -13,30 +11,23 @@ export default function LoadingScreen() {
   const [hidden, setHidden] = useState(false);
 
   useEffect(() => {
-    let loaded = 0;
+    let cancelled = false;
 
-    function onLoad() {
-      loaded++;
-      setProgress(Math.round((loaded / TOTAL) * 100));
-      if (loaded >= TOTAL) {
-        setTimeout(() => setDone(true), 300);
-        setTimeout(() => setHidden(true), 1200);
-      }
-    }
+    preloadFrames(1, (loaded, total) => {
+      if (cancelled) return;
+      setProgress(Math.round((loaded / total) * 100));
+    }).then(() => {
+      if (cancelled) return;
+      setTimeout(() => setDone(true), 300);
+      setTimeout(() => {
+        setHidden(true);
+        preloadFrames(2);
+      }, 1200);
+    });
 
-    for (let i = 1; i <= TOTAL_FRAMES_1; i++) {
-      const img = new window.Image();
-      img.src = `/frames/frame_${String(i).padStart(5, "0")}.jpg`;
-      img.onload = onLoad;
-      img.onerror = onLoad;
-    }
-
-    for (let i = 1; i <= TOTAL_FRAMES_2; i++) {
-      const img = new window.Image();
-      img.src = `/frames2/frame_${String(i).padStart(5, "0")}.jpg`;
-      img.onload = onLoad;
-      img.onerror = onLoad;
-    }
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   if (hidden) return null;
@@ -59,9 +50,7 @@ export default function LoadingScreen() {
         pointerEvents: done ? "none" : "all",
       }}
     >
-      <div style={{ width: "min(600px, 85vw)", display: "flex", flexDirection: "column", gap: "0" }}>
-
-        {/* numbers row */}
+      <div style={{ width: "min(600px, 85vw)", display: "flex", flexDirection: "column" }}>
         <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "6px", paddingLeft: "2px", paddingRight: "2px" }}>
           {Array.from({ length: SEGMENTS + 1 }, (_, i) => (
             <span
@@ -82,7 +71,6 @@ export default function LoadingScreen() {
           ))}
         </div>
 
-        {/* tick marks row */}
         <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "8px", paddingLeft: "2px", paddingRight: "2px" }}>
           {Array.from({ length: SEGMENTS + 1 }, (_, i) => (
             <div
@@ -98,7 +86,6 @@ export default function LoadingScreen() {
           ))}
         </div>
 
-        {/* continuous bar */}
         <div
           style={{
             width: "100%",
@@ -124,7 +111,6 @@ export default function LoadingScreen() {
           />
         </div>
 
-        {/* bottom row */}
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginTop: "20px" }}>
           <span
             style={{
@@ -165,7 +151,6 @@ export default function LoadingScreen() {
             </span>
           </div>
         </div>
-
       </div>
     </div>
   );

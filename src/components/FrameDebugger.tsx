@@ -1,10 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { TOTAL_FRAMES, FRAME_SCROLL_HEIGHT } from "@/components/HeroAnimation";
-
-const TOTAL_FRAMES_2 = 188;
-const FRAME_SCROLL_HEIGHT_2 = 6000;
+import {
+  FRAME_SCROLL_HEIGHT_1,
+  FRAME_SCROLL_HEIGHT_2,
+  TOTAL_FRAMES_1,
+  TOTAL_FRAMES_2,
+} from "@/lib/frames";
 
 export default function FrameDebugger() {
   const [frame1, setFrame1] = useState(0);
@@ -21,10 +23,9 @@ export default function FrameDebugger() {
       if (heroContainer) {
         const rect = heroContainer.getBoundingClientRect();
         const scrolled = -rect.top;
-        const p = Math.max(0, Math.min(1, scrolled / FRAME_SCROLL_HEIGHT));
-        const f = Math.round(p * (TOTAL_FRAMES - 1));
+        const p = Math.max(0, Math.min(1, scrolled / FRAME_SCROLL_HEIGHT_1));
         setProgress1(Math.round(p * 100));
-        setFrame1(f + 1);
+        setFrame1(Math.round(p * (TOTAL_FRAMES_1 - 1)) + 1);
         if (p > 0 && p < 1) setActive("hero");
       }
 
@@ -32,17 +33,15 @@ export default function FrameDebugger() {
         const rect = secondContainer.getBoundingClientRect();
         const scrolled = -rect.top;
         const p = Math.max(0, Math.min(1, scrolled / FRAME_SCROLL_HEIGHT_2));
-        const f = Math.round(p * (TOTAL_FRAMES_2 - 1));
         setProgress2(Math.round(p * 100));
-        setFrame2(f + 1);
+        setFrame2(Math.round(p * (TOTAL_FRAMES_2 - 1)) + 1);
         if (p > 0 && p < 1) setActive("second");
-        if (p <= 0 && progress1 >= 100) setActive("none");
       }
     }
 
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
-  }, [progress1]);
+  }, []);
 
   return (
     <div
@@ -72,26 +71,29 @@ export default function FrameDebugger() {
         CLIP 1
       </span>
       <span style={{ color: active === "hero" ? "#ffffff" : "rgba(255,255,255,0.4)" }}>
-        {String(frame1).padStart(4, "0")} / {TOTAL_FRAMES}
+        {String(frame1).padStart(4, "0")} / {TOTAL_FRAMES_1}
       </span>
-      <span style={{
-        width: "80px",
-        height: "2px",
-        background: "rgba(255,255,255,0.1)",
-        borderRadius: "2px",
-        position: "relative",
-        display: "inline-block",
-      }}>
-        <span style={{
-          position: "absolute",
-          left: 0,
-          top: 0,
-          height: "100%",
-          width: `${progress1}%`,
-          background: "#00aeef",
+      <span
+        style={{
+          width: "80px",
+          height: "2px",
+          background: "rgba(255,255,255,0.1)",
           borderRadius: "2px",
-          transition: "width 0.05s linear",
-        }} />
+          position: "relative",
+          display: "inline-block",
+        }}
+      >
+        <span
+          style={{
+            position: "absolute",
+            left: 0,
+            top: 0,
+            height: "100%",
+            width: `${progress1}%`,
+            background: "#00aeef",
+            borderRadius: "2px",
+          }}
+        />
       </span>
       <span style={{ color: "rgba(255,255,255,0.2)" }}>|</span>
       <span style={{ color: active === "second" ? "#970003" : "rgba(255,255,255,0.3)" }}>
@@ -100,27 +102,27 @@ export default function FrameDebugger() {
       <span style={{ color: active === "second" ? "#ffffff" : "rgba(255,255,255,0.4)" }}>
         {String(frame2).padStart(4, "0")} / {TOTAL_FRAMES_2}
       </span>
-      <span style={{
-        width: "80px",
-        height: "2px",
-        background: "rgba(255,255,255,0.1)",
-        borderRadius: "2px",
-        position: "relative",
-        display: "inline-block",
-      }}>
-        <span style={{
-          position: "absolute",
-          left: 0,
-          top: 0,
-          height: "100%",
-          width: `${progress2}%`,
-          background: "#970003",
+      <span
+        style={{
+          width: "80px",
+          height: "2px",
+          background: "rgba(255,255,255,0.1)",
           borderRadius: "2px",
-          transition: "width 0.05s linear",
-        }} />
-      </span>
-      <span style={{ color: "rgba(255,255,255,0.25)", fontSize: "10px" }}>
-        {progress1 < 100 ? `${progress1}%` : progress2 > 0 ? `${progress2}%` : ""}
+          position: "relative",
+          display: "inline-block",
+        }}
+      >
+        <span
+          style={{
+            position: "absolute",
+            left: 0,
+            top: 0,
+            height: "100%",
+            width: `${progress2}%`,
+            background: "#970003",
+            borderRadius: "2px",
+          }}
+        />
       </span>
     </div>
   );
